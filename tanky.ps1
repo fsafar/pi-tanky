@@ -47,12 +47,12 @@ function Invoke-Deploy {
         
         if ($LASTEXITCODE -eq 0) {
             Write-Host ""
-            Write-Host "✓ Full deployment complete!" -ForegroundColor Green
+            Write-Host "Full deployment complete!" -ForegroundColor Green
             Write-Host "Access web interface at: http://pi5.local:5000" -ForegroundColor Cyan
         }
     } else {
         Write-Host ""
-        Write-Host "✗ Python deployment failed, skipping web deployment" -ForegroundColor Red
+        Write-Host "Python deployment failed, skipping web deployment" -ForegroundColor Red
         exit 1
     }
 }
@@ -94,7 +94,7 @@ function Invoke-Logs {
     $logFile = if ($Args.Count -gt 0) { $Args[0] } else { "/home/fadi/pi-tanky/tanky.log" }
     
     # Check if log file exists, if not tail system logs
-    ssh -t fadi@pi5.local "if [ -f $logFile ]; then tail -f $logFile; else echo 'Log file not found. Showing system logs...'; sudo journalctl -f -u pi-tanky 2>/dev/null || tail -f /var/log/syslog | grep -i tanky; fi"
+    ssh -t fadi@pi5.local "if [ -f $logFile ]; then tail -f $logFile; else echo 'Log file not found.'; tail -f /var/log/syslog | grep -i tanky; fi"
 }
 
 function Invoke-Web {

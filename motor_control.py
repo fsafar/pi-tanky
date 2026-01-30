@@ -95,19 +95,22 @@ class MotorController:
         # Clamp speed to valid range
         speed = max(0, min(100, speed))
         
-        # Determine direction value (HIGH for forward, LOW for backward)
-        dir_value = GPIO.HIGH if direction == 'forward' else GPIO.LOW
+        # Determine direction value (LOW for forward, HIGH for backward)
+        # Note: Direction is inverted due to motor wiring
+        dir_value = GPIO.LOW if direction == 'forward' else GPIO.HIGH
         
         if motor == 1:
             if GPIO and self.m1_pwm:
                 GPIO.output(self.m1_dir_pin, dir_value)
                 self.m1_pwm.ChangeDutyCycle(speed)
+                logger.debug(f"M1: DIR={'HIGH' if dir_value == GPIO.HIGH else 'LOW'} ({direction}), PWM={speed}%")
             else:
                 logger.debug("[SIM] Motor 1 (Left): %s at %d%%", direction, speed)
         elif motor == 2:
             if GPIO and self.m2_pwm:
                 GPIO.output(self.m2_dir_pin, dir_value)
                 self.m2_pwm.ChangeDutyCycle(speed)
+                logger.debug(f"M2: DIR={'HIGH' if dir_value == GPIO.HIGH else 'LOW'} ({direction}), PWM={speed}%")
             else:
                 logger.debug("[SIM] Motor 2 (Right): %s at %d%%", direction, speed)
     
