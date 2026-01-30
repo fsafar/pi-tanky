@@ -1,0 +1,19 @@
+[Unit]
+Description=Pi-Tanky Web Server
+After=network.target
+
+[Service]
+Type=simple
+User=fadi
+Group=fadi
+WorkingDirectory=/home/fadi/pi-tanky
+Environment="PATH=/home/fadi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="PYTHONPATH=/home/fadi/.local/lib/python3.13/site-packages"
+ExecStart=/usr/bin/python3 /home/fadi/pi-tanky/web_server.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/home/fadi/pi-tanky/tanky.log
+StandardError=append:/home/fadi/pi-tanky/tanky.log
+
+[Install]
+WantedBy=multi-user.target

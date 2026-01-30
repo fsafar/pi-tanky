@@ -187,6 +187,7 @@ Pi-Tanky is a small, custom-built robotic vehicle featuring tank-style tracked l
 - **NFR-5.2:** Hardware components shall be easily accessible for maintenance
 - **NFR-5.3:** System shall support remote software updates via web interface
 - **NFR-5.4:** Configuration changes shall not require system reboot when possible
+- **NFR-5.5:** System shall provide automated deployment mechanism for pushing code from development machine to Raspberry Pi
 
 ### 5.6 Power Efficiency
 - **NFR-6.1:** System shall optimize power consumption for extended runtime
@@ -330,7 +331,14 @@ Pi-Tanky is a small, custom-built robotic vehicle featuring tank-style tracked l
 - Bug fixes
 - Documentation
 
-### Phase 7: Advanced Features (Future)
+### Phase 7: Deployment Automation (Week 7)
+- Set up SSH key-based authentication for Raspberry Pi
+- Create deployment script (rsync or git-based)
+- Configure automated file synchronization
+- Test deployment workflow from development machine
+- Document deployment process
+
+### Phase 8: Advanced Features (Future)
 - Autonomous navigation
 - Obstacle detection
 - GPS waypoint navigation
@@ -408,6 +416,7 @@ Pi-Tanky is a small, custom-built robotic vehicle featuring tank-style tracked l
 - Multi-user access with role-based permissions
 - VPN integration for enhanced security
 - Remote configuration management via web UI
+- Automated rollback mechanism for failed deployments
 
 ### 12.2 Long-term (v2.0+)
 - Autonomous navigation with obstacle avoidance
@@ -426,6 +435,7 @@ Pi-Tanky is a small, custom-built robotic vehicle featuring tank-style tracked l
 - API documentation (RESTful endpoints and WebSocket protocol)
 - Security configuration guide (SSL setup, firewall configuration)
 - User manual for remote access
+- Deployment guide (automated code deployment to Raspberry Pi)
 - Troubleshooting guide
 - Safety guidelines
 - Network architecture diagram

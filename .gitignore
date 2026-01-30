@@ -1,0 +1,45 @@
+# Node modules
+node_modules/
+web/node_modules/
+
+# Build outputs
+web/build/
+web/dist/
+*.pyc
+__pycache__/
+
+# Logs
+*.log
+tanky.log
+
+# Environment variables
+.env
+.env.local
+
+# Python virtual environments
+venv/
+env/
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
+.cache/
+
+# Coverage and test outputs
+coverage/
+.nyc_output/
+*.cover
+.pytest_cache/
