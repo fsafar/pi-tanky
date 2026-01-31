@@ -10,8 +10,24 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .App {
@@ -20,141 +36,203 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .App-header {
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  padding: 24px 20px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
 
 .App-header h1 {
   font-size: 2.5rem;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
 }
 
 .connection-status {
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 20px;
-  display: inline-block;
-  margin-top: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .connection-status.connected {
-  background: #10b981;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
+  animation: pulse-green 2s ease-in-out infinite;
 }
 
 .connection-status.disconnected {
-  background: #ef4444;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
+  animation: pulse-red 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 2px 16px rgba(16, 185, 129, 0.6); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); }
+  50% { box-shadow: 0 2px 16px rgba(239, 68, 68, 0.6); }
 }
 
 .App-main {
   flex: 1;
-  padding: 20px;
-  max-width: 800px;
+  padding: 32px 20px;
+  max-width: 900px;
   margin: 0 auto;
   width: 100%;
 }
 
 .status-panel {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 30px;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 32px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .status-item {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
+  min-width: 140px;
 }
 
 .status-item label {
-  font-size: 0.9rem;
-  opacity: 0.8;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
 }
 
 .status-value {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .speed-control {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 30px;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .speed-control label {
   display: block;
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
 }
 
 .speed-control input[type="range"] {
   width: 100%;
-  height: 8px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.3);
+  height: 10px;
+  border-radius: 10px;
+  background: rgba(71, 85, 105, 0.5);
   outline: none;
   -webkit-appearance: none;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .speed-control input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: white;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.5);
+  transition: all 0.2s;
+}
+
+.speed-control input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(96, 165, 250, 0.7);
 }
 
 .speed-control input[type="range"]::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: white;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.5);
   border: none;
+  transition: all 0.2s;
+}
+
+.speed-control input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(96, 165, 250, 0.7);
 }
 
 .speed-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
 }
 
 .speed-buttons button {
-  padding: 10px 20px;
+  padding: 12px 28px;
   font-size: 1rem;
-  font-weight: bold;
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid white;
-  border-radius: 10px;
+  font-weight: 700;
+  background: rgba(71, 85, 105, 0.5);
+  border: 2px solid rgba(148, 163, 184, 0.3);
+  border-radius: 12px;
   color: white;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .speed-buttons button:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
+  background: rgba(96, 165, 250, 0.3);
+  border-color: rgba(96, 165, 250, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+}
+
+.speed-buttons button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .speed-buttons button:disabled {
@@ -163,48 +241,78 @@ body {
 }
 
 .controls {
-  margin-bottom: 30px;
+  margin-bottom: 32px;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .control-grid {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 }
 
 .control-row {
   display: flex;
-  gap: 15px;
+  gap: 16px;
   justify-content: center;
 }
 
 .control-btn {
-  width: 120px;
-  height: 120px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  background: rgba(255, 255, 255, 0.2);
+  width: 130px;
+  height: 130px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(71, 85, 105, 0.6) 0%, rgba(51, 65, 85, 0.6) 100%);
   backdrop-filter: blur(10px);
-  border: 3px solid white;
-  border-radius: 15px;
+  border: 2px solid rgba(148, 163, 184, 0.3);
+  border-radius: 20px;
   color: white;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+.control-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.control-btn:hover:not(:disabled)::before {
+  width: 300px;
+  height: 300px;
 }
 
 .control-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.5) 0%, rgba(139, 92, 246, 0.5) 100%);
+  border-color: rgba(96, 165, 250, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(96, 165, 250, 0.3);
 }
 
 .control-btn:active:not(:disabled) {
-  transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px) scale(0.98);
+  box-shadow: 0 6px 12px rgba(96, 165, 250, 0.3);
 }
 
 .control-btn:disabled {
@@ -213,34 +321,65 @@ body {
 }
 
 .stop-btn {
-  background: rgba(239, 68, 68, 0.3);
-  border-color: #ef4444;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.5) 0%, rgba(220, 38, 38, 0.5) 100%);
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 .stop-btn:hover:not(:disabled) {
-  background: rgba(239, 68, 68, 0.5);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.7) 0%, rgba(220, 38, 38, 0.7) 100%);
+  border-color: rgba(239, 68, 68, 0.8);
+  box-shadow: 0 12px 24px rgba(239, 68, 68, 0.4);
 }
 
 .emergency-stop {
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  background: #dc2626;
-  border: none;
-  border-radius: 15px;
+  max-width: 500px;
+  padding: 24px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  border: 3px solid rgba(239, 68, 68, 0.5);
+  border-radius: 20px;
   color: white;
   cursor: pointer;
-  transition: all 0.2s;
-  margin: 20px auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 24px auto;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.emergency-stop::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.emergency-stop:hover:not(:disabled)::before {
+  width: 500px;
+  height: 500px;
 }
 
 .emergency-stop:hover:not(:disabled) {
-  background: #b91c1c;
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(220, 38, 38, 0.5);
+  border-color: rgba(239, 68, 68, 0.8);
+}
+
+.emergency-stop:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 8px 16px rgba(220, 38, 38, 0.4);
 }
 
 .emergency-stop:disabled {
@@ -249,33 +388,114 @@ body {
 }
 
 .keyboard-hint {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  padding: 20px;
-  margin-top: 30px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 24px;
+  margin-top: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .keyboard-hint p {
-  margin: 5px 0;
+  margin: 8px 0;
   font-size: 0.95rem;
+  opacity: 0.9;
 }
 
-@media (max-width: 600px) {
+.keyboard-hint p strong {
+  color: #60a5fa;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
   .App-header h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
+  }
+
+  .App-main {
+    padding: 24px 16px;
+  }
+
+  .status-panel {
+    padding: 20px;
+    gap: 24px;
+  }
+
+  .status-value {
+    font-size: 2rem;
+  }
+
+  .speed-control {
+    padding: 20px;
+  }
+
+  .controls {
+    padding: 24px 16px;
+  }
+
+  .control-btn {
+    width: 110px;
+    height: 110px;
+    font-size: 0.9rem;
+  }
+
+  .keyboard-hint {
+    padding: 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .connection-status {
+    font-size: 0.85rem;
+    padding: 6px 16px;
+  }
+
+  .App-main {
+    padding: 20px 12px;
+  }
+
+  .status-panel {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .status-item {
+    min-width: 100px;
+  }
+
+  .status-value {
+    font-size: 1.75rem;
+  }
+
+  .speed-control,
+  .controls {
+    padding: 16px;
   }
 
   .control-btn {
     width: 90px;
     height: 90px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    border-radius: 16px;
   }
 
-  .status-value {
-    font-size: 1.5rem;
+  .control-row {
+    gap: 12px;
+  }
+
+  .emergency-stop {
+    font-size: 1.2rem;
+    padding: 18px;
   }
 
   .keyboard-hint {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    padding: 16px;
   }
 }

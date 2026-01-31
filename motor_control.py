@@ -27,29 +27,29 @@ logger = logging.getLogger('MotorController')
 class MotorController:
     """Controls dual motors via Pololu Dual G2 motor driver"""
     
-    def __init__(self, m1_pwm=12, m1_dir=5, m1_en=22, m2_pwm=13, m2_dir=6, m2_en=23, pwm_freq=1000):
+    def __init__(self, m1_pwm=12, m1_dir=24, m1_slp=22, m2_pwm=13, m2_dir=25, m2_slp=23, pwm_freq=1000):
         """
         Initialize motor controller
         
         Pololu Dual G2 18v18 for Raspberry Pi - GPIO Pin Mapping (BCM):
-        - Motor 1 (M1): DIR=GPIO5, PWM=GPIO12, EN=GPIO22, CS=GPIO24
-        - Motor 2 (M2): DIR=GPIO6, PWM=GPIO13, EN=GPIO23, CS=GPIO25
+        - Motor 1 (M1): DIR=GPIO24, PWM=GPIO12, SLP=GPIO22, FLT=GPIO5
+        - Motor 2 (M2): DIR=GPIO25, PWM=GPIO13, SLP=GPIO23, FLT=GPIO6
         
         Args:
             m1_pwm: GPIO pin for Motor 1 PWM (left track, default: 12)
-            m1_dir: GPIO pin for Motor 1 Direction (default: 5)
-            m1_en: GPIO pin for Motor 1 Enable (default: 22)
+            m1_dir: GPIO pin for Motor 1 Direction (default: 24)
+            m1_slp: GPIO pin for Motor 1 Sleep (inverted, default: 22)
             m2_pwm: GPIO pin for Motor 2 PWM (right track, default: 13)
-            m2_dir: GPIO pin for Motor 2 Direction (default: 6)
-            m2_en: GPIO pin for Motor 2 Enable (default: 23)
+            m2_dir: GPIO pin for Motor 2 Direction (default: 25)
+            m2_slp: GPIO pin for Motor 2 Sleep (inverted, default: 23)
             pwm_freq: PWM frequency in Hz (default: 1000)
         """
         self.m1_pwm_pin = m1_pwm
         self.m1_dir_pin = m1_dir
-        self.m1_en_pin = m1_en
+        self.m1_slp_pin = m1_slp
         self.m2_pwm_pin = m2_pwm
         self.m2_dir_pin = m2_dir
-        self.m2_en_pin = m2_en
+        self.m2_slp_pin = m2_slp
         self.pwm_freq = pwm_freq
         
         if GPIO:
@@ -60,14 +60,14 @@ class MotorController:
             # Setup motor 1 pins
             GPIO.setup(self.m1_pwm_pin, GPIO.OUT)
             GPIO.setup(self.m1_dir_pin, GPIO.OUT)
-            GPIO.setup(self.m1_en_pin, GPIO.OUT)
-            GPIO.output(self.m1_en_pin, GPIO.HIGH)  # Enable motor 1
+            GPIO.setup(self.m1_slp_pin, GPIO.OUT)
+            GPIO.output(self.m1_slp_pin, GPIO.HIGH)  # Wake motor 1 (SLP is inverted: HIGH=awake)
             
             # Setup motor 2 pins
             GPIO.setup(self.m2_pwm_pin, GPIO.OUT)
             GPIO.setup(self.m2_dir_pin, GPIO.OUT)
-            GPIO.setup(self.m2_en_pin, GPIO.OUT)
-            GPIO.output(self.m2_en_pin, GPIO.HIGH)  # Enable motor 2
+            GPIO.setup(self.m2_slp_pin, GPIO.OUT)
+            GPIO.output(self.m2_slp_pin, GPIO.HIGH)  # Wake motor 2 (SLP is inverted: HIGH=awake)
             
             # Initialize PWM
             self.m1_pwm = GPIO.PWM(self.m1_pwm_pin, self.pwm_freq)
@@ -95,8 +95,12 @@ class MotorController:
         # Clamp speed to valid range
         speed = max(0, min(100, speed))
         
-        # Determine direction value (LOW for forward, HIGH for backward)
-        # Note: Direction is inverted due to motor wiring
+        # According to Pololu G2 specs:
+        # DIR=0 (LOW): current flows from MxA to MxB
+        # DIR=1 (HIGH): current flows from MxB to MxA
+        # Both motors use same DIR logic (wiring/mounting handles the mirroring)
+        
+        # Both motors: DIR LOW = forward, DIR HIGH = backward
         dir_value = GPIO.LOW if direction == 'forward' else GPIO.HIGH
         
         if motor == 1:
@@ -168,9 +172,9 @@ class MotorController:
         """Clean up GPIO resources"""
         self.stop()
         if GPIO and self.m1_pwm and self.m2_pwm:
-            # Disable motors
-            GPIO.output(self.m1_en_pin, GPIO.LOW)
-            GPIO.output(self.m2_en_pin, GPIO.LOW)
+            # Put motors to sleep
+            GPIO.output(self.m1_slp_pin, GPIO.LOW)
+            GPIO.output(self.m2_slp_pin, GPIO.LOW)
             # Stop PWM
             self.m1_pwm.stop()
             self.m2_pwm.stop()
